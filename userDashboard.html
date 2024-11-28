@@ -59,8 +59,8 @@
                         <button type="submit"><b>Customer<br>Support</b></button>
                     </div>
                     <div class="btn">
-                        <button id="logout" type="submit"><a href="homePage.html"><b>Log out</b></button></a>
-                    </div>
+                        <button id="logout" type="button"><b>Log out</b></button>
+                    </div>                    
                 </div>
             </div>
         </div>
@@ -110,3 +110,42 @@
     </section>
 </body>
 </html>
+
+<script>
+    // Logout functionality with a twist ✨
+    document.getElementById("logout").addEventListener("click", function(event) {
+        event.preventDefault(); // Prevent default link behavior
+
+        const userConfirmed = confirm("Are you sure you want to log out?");
+        if (userConfirmed) {
+            // Clear session data
+            localStorage.clear(); 
+            sessionStorage.clear(); 
+
+            // Display an animated logout message
+            const logoutMessage = document.createElement("div");
+            logoutMessage.innerText = "Logging you out...";
+            logoutMessage.style.position = "fixed";
+            logoutMessage.style.top = "50%";
+            logoutMessage.style.left = "50%";
+            logoutMessage.style.transform = "translate(-50%, -50%)";
+            logoutMessage.style.padding = "20px";
+            logoutMessage.style.backgroundColor = "#f44336";  // Red background
+            logoutMessage.style.color = "#fff";
+            logoutMessage.style.border = "2px solid #d32f2f"; // Darker red border
+            logoutMessage.style.borderRadius = "10px";
+            logoutMessage.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)"; // Slightly stronger shadow
+            logoutMessage.style.fontSize = "18px";
+            logoutMessage.style.fontFamily = "Arial, sans-serif";
+            logoutMessage.style.zIndex = "9999";
+            logoutMessage.style.transition = "opacity 0.5s ease";  // Smooth fade-out transition
+            document.body.appendChild(logoutMessage);
+
+            // Redirect after a brief animation delay
+            setTimeout(() => {
+                logoutMessage.style.opacity = "0";  // Fade out message
+                window.location.href = "login.html";  // Redirect to login page
+            }, 2000);
+        }
+    });
+</script>

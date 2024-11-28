@@ -35,10 +35,8 @@
         </div>
     </header>
 
-    
     <div class="register-container">
         <div class="cons">
-            <!--============for image slidess============= -->
             <div class="images">
                 <section id="image1">
                     <img src="images/banner/registerBanner1.jpg" alt="Image 1" style="width: 420px; height: 470px;">
@@ -47,51 +45,90 @@
                     <img src="images/banner/registerBanner2.jpg" alt="Image 2" style="width: 420px; height: 470px;">
                 </section>
         
-                <!-- Buttons at the bottom of the images -->
                 <div class="buttons-container">
                     <button id="showFirstImageButton" class="dot-button"></button>
                     <button id="showSecondImageButton" class="dot-button"></button>
                 </div>
             </div>
-        
 
-            <!-- =================end================= -->
-                <div class="register">
-                    <form action="">
-                        <div class="text">
-                            <h1>Create an account</h1>
-                            <p>Already have an account?<a href="login.html">Sign in</a></p>
-                        </div>
-                        <div class="inputs">
-                            <input id="fname" type="text" placeholder="First Name" required> <input id="lname" type="input-b" placeholder="Last Name"required>
-                        </div>
-                        <div class="inputs">
-                            <input id="email" type="text" placeholder="Email" required>
-                        </div>
-                        <div class="inputs">
-                            <input id="pass" type="password" placeholder="Password" required>
-                        </div>
-                        <div class="check">
-                           <label id="lebel" for="check"><input id="check" type="checkbox" required>I agree to the Terms & Conditions</label >
-                        </div>
-
-                        <div class="input-b">
-                            <a href="login.html"><button type="submit">Sign in</button></a>
-                        </div>
-                        <div class="text-with-lines">Or register with</div>
-                        <div><a href="productList.html">
-                            <button type="submit" class="google-btn">
-                                <img src="images/svg/googleIcon.png" alt="" class="google-icon">
-                                Continue With Google
-                            </button></a>
-                        </div>
-                                 
+            <div class="register">
+                <form id="registerForm">
+                    <div class="text">
+                        <h1>Create an account</h1>
+                        <p>Already have an account?<a href="login.html">Sign in</a></p>
                     </div>
-                 </form>
-        </div> 
+                    <div class="inputs">
+                        <input id="fname" type="text" placeholder="First Name" required>
+                        <input id="lname" type="input-b" placeholder="Last Name" required>
+                    </div>
+                    <div class="inputs">
+                        <input id="email" type="email" placeholder="Email" required>
+                    </div>
+                    <div class="inputs">
+                        <input id="pass" type="password" placeholder="Password" required>
+                    </div>
+                    <div class="check">
+                       <label id="lebel" for="check">
+                           <input id="check" type="checkbox" required>I agree to the Terms & Conditions
+                       </label>
+                    </div>
+
+                    <div class="input-b">
+                        <button type="submit">Sign up</button>
+                    </div>
+
+                    <div class="text-with-lines">Or register with</div>
+                    <div><a href="productList.html">
+                        <button type="submit" class="google-btn">
+                            <img src="images/svg/googleIcon.png" alt="" class="google-icon">
+                            Continue With Google
+                        </button>
+                    </a></div>
+                </form>
+            </div> 
+        </div>
     </div>
-<script src="scripts/register.js"></script>
-    
-   
+
+    <script>
+        // Handle form submission
+        document.getElementById("registerForm").addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent form from reloading the page
+
+    // Get form values
+    const fname = document.getElementById("fname").value;
+    const lname = document.getElementById("lname").value;
+    const email = document.getElementById("email").value;
+    const pass = document.getElementById("pass").value;
+
+    // Send the registration data to the backend
+    fetch('http://localhost:5000/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            fname,
+            lname,
+            email,
+            pass
+        }),
+    })
+    .then((response) => response.json()) // Parse JSON response
+    .then((data) => {
+        if (data.message) {
+            alert(data.message); // Show success or error message
+            if (data.message === "Registration successful.") {
+                window.location.href = "login.html"; // Redirect to login page after successful registration
+            }
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again later.');
+    });
+});
+
+    </script>
+
 </body>
 </html>
